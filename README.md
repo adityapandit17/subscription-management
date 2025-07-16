@@ -1,24 +1,32 @@
-# README
+# Subscription Management
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple subscription management application.
 
-Things you may want to cover:
+## System dependencies
 
-* Ruby version
+- Ruby 3.4.4
+- Rails 8.0.2
+- PostgreSQL
 
-* System dependencies
+## Configuration
 
-* Configuration
+- Update `database.yml` with your PostgreSQL credentials.
 
-* Database creation
+## Database creation
 
-* Database initialization
+```bash
+rails db:create
+```
 
-* How to run the test suite
+## Database initialization
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+rails db:migrate
+```
 
-* Deployment instructions
+## How to run the test suite
 
-* ...
+```bash
+rspec spec
+```
+
