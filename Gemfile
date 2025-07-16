@@ -59,7 +59,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "shoulda-matchers"
-  gem "stripe-ruby-mock", "~> 3.1.0", require: "stripe_mock"
+  gem "stripe-ruby-mock", "~> 5.0.0", require: "stripe_mock"
 end
 
 group :development do
