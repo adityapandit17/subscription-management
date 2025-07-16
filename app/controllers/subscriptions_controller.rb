@@ -5,6 +5,6 @@ class SubscriptionsController < ApplicationController
   before_action :require_login
 
   def index
-    @subscriptions = Subscription.includes(:user).all
+    @subscriptions = Subscription.includes(:user).page(params[:page]).per(5)
   end
 end
