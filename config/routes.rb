@@ -11,6 +11,6 @@ Rails.application.routes.draw do
 
   # for handling stripe webhooks events
   resources :stripe_webhooks, only: [ :create ]
-  resource :session, only: [:new, :create, :destroy]
+  resources :session, only: [:new, :create, :destroy]
   resources :subscriptions, only: :index
 end
