@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'stripe_mock'
 
 RSpec.configure do |config|
   config.before(:each) do
