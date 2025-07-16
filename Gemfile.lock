@@ -98,6 +98,7 @@ GEM
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     crass (1.0.6)
+    dante (0.2.0)
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -164,6 +165,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
+    multi_json (1.16.0)
     net-imap (0.5.9)
       date
       net-protocol
@@ -343,6 +345,11 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.7)
+    stripe (5.55.0)
+    stripe-ruby-mock (3.1.0)
+      dante (>= 0.2.0)
+      multi_json (~> 1.0)
+      stripe (> 5, < 6)
     tailwindcss-rails (4.3.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -416,6 +423,8 @@ DEPENDENCIES
   solid_cache
   solid_queue
   stimulus-rails
+  stripe
+  stripe-ruby-mock (~> 3.1.0)
   tailwindcss-rails
   thruster
   turbo-rails
