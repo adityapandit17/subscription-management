@@ -1,4 +1,69 @@
-<div>
-  <h1 class="font-bold text-4xl">Subscriptions#index</h1>
-  <p>Find me in app/views/subscriptions/index.html.erb</p>
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Subscription Management</h1>
+    <p class="text-gray-600 mt-2">View and manage all subscriptions</p>
+  </div>
+
+  <% if @subscriptions.empty? %>
+    <div class="bg-white shadow rounded-lg p-8 text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No subscriptions found</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating a new subscription.</p>
+    </div>
+  <% else %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul class="divide-y divide-gray-200">
+        <% @subscriptions.each do |subscription| %>
+          <li>
+            <div class="px-4 py-4 sm:px-6 flex items-center justify-between hover:bg-gray-50">
+              <div class="flex items-center">
+                <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                  <div>
+                    <div class="flex text-sm">
+                      <p class="font-medium text-indigo-600 truncate"><%= subscription.user.email %></p>
+                    </div>
+                    <div class="mt-2 flex">
+                      <div class="flex items-center text-sm text-gray-500">
+                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                        <p>
+                          Period: <%= subscription.current_period_start&.strftime("%b %d, %Y") %> - 
+                          <%= subscription.current_period_end&.strftime("%b %d, %Y") %>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ml-5 flex-shrink-0">
+                <% case subscription.status %>
+                <% when "paid" %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Active
+                  </span>
+                <% when "unpaid" %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    Unpaid
+                  </span>
+                <% when "canceled" %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    Canceled
+                  </span>
+                <% end %>
+              </div>
+              <div class="ml-5 flex-shrink-0">
+                <span class="text-gray-500 text-sm font-medium">ID: <%= subscription.stripe_subscription_id %></span>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="mt-4 text-right">
+      <p class="text-sm text-gray-600">Total subscriptions: <%= @subscriptions.count %></p>
+    </div>
+  <% end %>
 </div>

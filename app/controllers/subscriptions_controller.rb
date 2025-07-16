@@ -4,5 +4,7 @@
 class SubscriptionsController < ApplicationController
   before_action :require_login
 
-  def index; end
+  def index
+    @subscriptions = Subscription.includes(:user).all
+  end
 end

@@ -5,12 +5,13 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  get "sessions/new", to: "sessions#new", as: :login
-  delete "sessions", to: "sessions#destroy", as: :logout
+  get "login", to: "sessions#new", as: :login
+  post "login", to: "sessions#create"
+  delete "logout", to: "sessions#destroy", as: :logout
+
   get "subscriptions/index"
 
   # for handling stripe webhooks events
   resources :stripe_webhooks, only: [ :create ]
-  resources :session, only: [:new, :create, :destroy]
   resources :subscriptions, only: :index
 end
