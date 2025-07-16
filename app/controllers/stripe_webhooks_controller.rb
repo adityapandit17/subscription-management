@@ -9,11 +9,11 @@ class StripeWebhooksController < ApplicationController
   def create
     case @event["type"]
     when "customer.subscription.created"
-      handle_subscription_created(event_payload)
+      StripeWebhookHandlers::SubscriptionCreated.new.call(event_payload)
     when "customer.subscription.deleted"
-      handle_subscription_deleted(event_payload)
+      StripeWebhookHandlers::SubscriptionDeleted.new.call(event_payload)
     when "invoice.payment_succeeded"
-      handle_subscription_payment_succeeded(event_payload)
+      StripeWebhookHandlers::InvoicePaymentSucceeded.new.call(event_payload)
     end
 
     head :ok
@@ -27,37 +27,5 @@ class StripeWebhooksController < ApplicationController
 
   def event_payload
     @event_payload ||= @event["data"]["object"]
-  end
-
-  def handle_subscription_created(subscription_data)
-    user = User.find_by(stripe_customer_id: subscription_data["customer"])
-    return unless user
-
-    subscription = user.subscriptions.create(
-      status: :unpaid,
-      stripe_subscription_id: subscription_data["id"],
-      current_period_start: Time.at(subscription_data["current_period_start"]),
-      current_period_end: Time.at(subscription_data["current_period_end"])
-    )
-  end
-
-  def handle_subscription_deleted(subscription_data)
-    user = User.find_by(stripe_customer_id: subscription_data["customer"])
-    return unless user
-
-    subscription = user.subscriptions.find_by(stripe_subscription_id: subscription_data["id"])
-    return unless subscription
-
-    subscription.update(status: :canceled)
-  end
-
-  def handle_subscription_payment_succeeded(invoice_data)
-    user = User.find_by(stripe_customer_id: invoice_data["customer"])
-    return unless user
-
-    subscription = user.subscriptions.find_by(stripe_subscription_id: invoice_data["subscription"])
-    return unless subscription
-
-    subscription.update(status: :paid)
   end
 end
